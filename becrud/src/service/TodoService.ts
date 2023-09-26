@@ -1,12 +1,12 @@
 import { Repository } from "typeorm";
-import { Todos } from "../entities/Todo";
+import { Paslon } from "../entities/Paslon";
 import { AppDataSource } from "../data-source";
 import { createTodoSchema } from "../utils/Todos";
 import { Request, Response, response } from "express";
 
 export default new (class TodosService {
-	private readonly TodoRepository: Repository<Todos> =
-		AppDataSource.getRepository(Todos);
+	private readonly TodoRepository: Repository<Paslon> =
+		AppDataSource.getRepository(Paslon);
 
 	async create(req: Request, res: Response): Promise<Response> {
 		try {
@@ -17,8 +17,8 @@ export default new (class TodosService {
 
 			const obj = this.TodoRepository.create({
 				name: data.name,
-				// visi: data.visi,
-				// image: data.image,
+				visi: data.visi,
+				image: data.image,
 			});
 			const todos = this.TodoRepository.save(obj);
 			return res.status(200).json(todos);
