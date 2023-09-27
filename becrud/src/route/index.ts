@@ -2,6 +2,6 @@ import * as express from "express";
 import TodoController from "../controllers/TodoController";
 
 const router = express.Router();
-router.post("/todos", TodoController.create);
-
+router.post("/paslon", TodoController.create);
+router.get("/paslons", TodoController.find)
 export default router;

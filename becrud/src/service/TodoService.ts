@@ -26,4 +26,12 @@ export default new (class TodosService {
 			return res.status(500).json({ error: "error while insterting data!" });
 		}
 	}
+	async find(req: Request, res: Response): Promise<Response> {
+		try {
+			const paslons = await this.TodoRepository.find();
+			return res.status(200).json(paslons);
+		} catch (error) {
+			return res.status(500).json({ error: "error while finding data!" });
+		}
+	}
 })();
