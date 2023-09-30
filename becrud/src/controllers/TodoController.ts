@@ -8,4 +8,13 @@ export default new (class TodoController {
 	find(req: Request, res: Response) {
 		TodosService.find(req, res);
 	}
+	findById(req: Request, res: Response) {
+		TodosService.findById(req, res);
+	}
+	update(req: Request, res: Response) {
+		TodosService.update(req, res);
+	}
+	deleteById(req: Request, res: Response) {
+		TodosService.deleteById(req, res);
+	}
 })();
