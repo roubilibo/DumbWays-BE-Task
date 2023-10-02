@@ -7,5 +7,4 @@ export const createTodoSchema = joi.object({
 export const updateTodoSchema = joi.object({
 	name: joi.string(),
 	visi: joi.string(),
-	image: joi.string(),
 });
