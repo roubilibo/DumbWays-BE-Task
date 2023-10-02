@@ -3,6 +3,8 @@ import { Paslon } from "../entities/Paslon";
 import { AppDataSource } from "../data-source";
 import { createTodoSchema, updateTodoSchema } from "../utils/Todos";
 import { Request, Response, response } from "express";
+import { deleteFile } from "../utils/FileHelper";
+import { uploadToCloudinary } from "../utils/Cloudinary";
 
 export default new (class TodosService {
 	private readonly TodoRepository: Repository<Paslon> =
@@ -15,10 +17,19 @@ export default new (class TodosService {
 
 			if (error) return res.status(400).json({ error: error });
 
+			let image =
+				"https://res.cloudinary.com/dtha7yn1x/image/upload/v1696230488/IMG_20200329_164405_vpmtan.jpg";
+			if (req.file?.filename) {
+				// save to cloudinary
+				image = await uploadToCloudinary(req.file);
+				// delete file from local server after save to cloudinary
+				deleteFile(req.file.path);
+			}
+
 			const obj = this.TodoRepository.create({
 				name: data.name,
 				visi: data.visi,
-				image: data.image,
+				image: image,
 			});
 			const todos = this.TodoRepository.save(obj);
 			return res.status(200).json(todos);
@@ -64,6 +75,16 @@ export default new (class TodosService {
 
 			if (!todo) {
 				return res.status(404).json({ error: "ID not found" });
+			}
+
+			// default image
+			let image =
+				"https://res.cloudinary.com/dtha7yn1x/image/upload/v1696230488/IMG_20200329_164405_vpmtan.jpg";
+			if (req.file?.filename) {
+				// save to cloudinary
+				image = await uploadToCloudinary(req.file);
+				// delete file from local server after save to cloudinary
+				deleteFile(req.file.path);
 			}
 
 			todo.name = data.name;
