@@ -32,7 +32,7 @@ export default new (class TodosService {
 				image: image,
 			});
 			const todos = this.TodoRepository.save(obj);
-			return res.status(200).json(todos);
+			return res.status(200).json(obj);
 		} catch (error) {
 			return res.status(500).json({ error: "error while insterting data!" });
 		}
