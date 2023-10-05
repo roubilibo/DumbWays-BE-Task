@@ -1,13 +1,13 @@
 import { Repository } from "typeorm";
 import { Paslon } from "../entities/Paslon";
 import { AppDataSource } from "../data-source";
-import { createTodoSchema, updateTodoSchema } from "../utils/Todos";
+import { createTodoSchema, updateTodoSchema } from "../utils/Validation";
 import { Request, Response, response } from "express";
 import { deleteFile } from "../utils/FileHelper";
 import { uploadToCloudinary } from "../utils/Cloudinary";
 
-export default new (class TodosService {
-	private readonly TodoRepository: Repository<Paslon> =
+export default new (class PaslonServices {
+	private readonly PaslonRepository: Repository<Paslon> =
 		AppDataSource.getRepository(Paslon);
 
 	async create(req: Request, res: Response): Promise<Response> {
@@ -26,12 +26,12 @@ export default new (class TodosService {
 				deleteFile(req.file.path);
 			}
 
-			const obj = this.TodoRepository.create({
+			const obj = this.PaslonRepository.create({
 				name: data.name,
 				visi: data.visi,
 				image: image,
 			});
-			const todos = this.TodoRepository.save(obj);
+			const todos = this.PaslonRepository.save(obj);
 			return res.status(200).json(obj);
 		} catch (error) {
 			return res.status(500).json({ error: "error while insterting data!" });
@@ -39,7 +39,7 @@ export default new (class TodosService {
 	}
 	async find(req: Request, res: Response): Promise<Response> {
 		try {
-			const paslons = await this.TodoRepository.find();
+			const paslons = await this.PaslonRepository.find();
 			return res.status(200).json(paslons);
 		} catch (error) {
 			return res.status(500).json({ error: "error while finding data!" });
@@ -51,7 +51,7 @@ export default new (class TodosService {
 			if (isNaN(id) || id <= 0)
 				return res.status(400).json({ Error: "Invalid id" });
 
-			const todo = await this.TodoRepository.findOneBy({ id: Number(id) });
+			const todo = await this.PaslonRepository.findOneBy({ id: Number(id) });
 
 			if (!todo) {
 				return res.status(404).json({ error: "ID not found" });
@@ -71,7 +71,7 @@ export default new (class TodosService {
 
 			if (error) return res.status(400).json({ error: error });
 
-			const todo = await this.TodoRepository.findOneBy({ id: Number(id) });
+			const todo = await this.PaslonRepository.findOneBy({ id: Number(id) });
 
 			if (!todo) {
 				return res.status(404).json({ error: "ID not found" });
@@ -91,7 +91,7 @@ export default new (class TodosService {
 			todo.visi = data.visi;
 			todo.image = data.image;
 
-			const updatedTodo = await this.TodoRepository.save(todo);
+			const updatedTodo = await this.PaslonRepository.save(todo);
 			return res.status(200).json(updatedTodo);
 		} catch (error) {
 			return res.status(500).json({ error: "Error while updating data!" });
@@ -101,13 +101,13 @@ export default new (class TodosService {
 		try {
 			const id = parseInt(req.params.id);
 
-			const todo = await this.TodoRepository.findOneBy({ id: Number(id) });
+			const todo = await this.PaslonRepository.findOneBy({ id: Number(id) });
 
 			if (!todo) {
 				return res.status(404).json({ error: "ID not found" });
 			}
 
-			await this.TodoRepository.delete(id);
+			await this.PaslonRepository.delete(id);
 
 			return res.status(200).json({ message: "Paslon deleted successfully" });
 		} catch (error) {

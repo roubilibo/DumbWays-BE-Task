@@ -1,6 +1,14 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import {
+	Entity,
+	PrimaryGeneratedColumn,
+	Column,
+	CreateDateColumn,
+	OneToMany,
+} from "typeorm";
 
-@Entity({ name: "paslon" })
+import { Votes } from "./vote";
+
+@Entity({ name: "paslons" })
 export class Paslon {
 	@PrimaryGeneratedColumn()
 	id: number;
@@ -13,4 +21,13 @@ export class Paslon {
 
 	@Column({ nullable: true })
 	image: string;
+
+	@OneToMany(() => Votes, (votes) => votes.paslon)
+	votes: Votes[];
+
+	@CreateDateColumn({ type: "timestamp with time zone" })
+	createdAt: Date;
+
+	@CreateDateColumn({ type: "timestamp with time zone" })
+	updatedAt: Date;
 }
