@@ -28,4 +28,36 @@ export default new (class VoteServices {
 			});
 		}
 	}
+
+	async create(req: Request, res: Response): Promise<Response> {
+		try {
+			const data = req.body;
+
+			// validate
+			const { error } = createVoteSchema.validate(data);
+			if (error) return res.status(400).json({ code: 400, error });
+
+			const paslonRelatedToVote = await this.PaslonRepository.findOneBy({
+				id: data.paslonId,
+			});
+
+			const newVote = this.VoteRepository.create({
+				voterName: data.voterName,
+				paslon: paslonRelatedToVote,
+			});
+
+			await this.VoteRepository.save(newVote);
+
+			return res.status(201).json({
+				code: 201,
+				data: newVote,
+			});
+		} catch (error) {
+			console.log(error);
+			return res.status(500).json({
+				code: 500,
+				error: "error",
+			});
+		}
+	}
 })();

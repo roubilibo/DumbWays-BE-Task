@@ -12,6 +12,6 @@ export const updateTodoSchema = joi.object({
 });
 
 export const createVoteSchema = Joi.object({
-	paslonId: Joi.number().required(),
 	voterName: joi.string().required(),
+	paslonId: Joi.number().required(),
 });
