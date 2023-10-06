@@ -4,9 +4,12 @@ import {
 	Column,
 	CreateDateColumn,
 	OneToMany,
+	ManyToMany,
+	JoinTable,
 } from "typeorm";
 
 import { Votes } from "./vote";
+import { Party } from "./Party";
 
 @Entity({ name: "paslons" })
 export class Paslon {
@@ -24,6 +27,10 @@ export class Paslon {
 
 	@OneToMany(() => Votes, (votes) => votes.paslon)
 	votes: Votes[];
+
+	@ManyToMany(() => Party, (party) => party.paslons)
+	@JoinTable()
+	Parties: Party[];
 
 	@CreateDateColumn({ type: "timestamp with time zone" })
 	createdAt: Date;

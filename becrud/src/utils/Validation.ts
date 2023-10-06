@@ -15,3 +15,7 @@ export const createVoteSchema = Joi.object({
 	voterName: joi.string().required(),
 	paslonId: Joi.number().required(),
 });
+
+export const createPartySchema = joi.object({
+	name: Joi.string().required(),
+});
