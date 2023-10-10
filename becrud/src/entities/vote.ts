@@ -2,12 +2,12 @@ import {
 	Column,
 	CreateDateColumn,
 	Entity,
-	ManyToMany,
 	ManyToOne,
 	PrimaryGeneratedColumn,
 } from "typeorm";
 
 import { Paslon } from "./Paslon";
+import { Users } from "./User";
 
 @Entity({ name: "voter" })
 export class Votes {
@@ -16,6 +16,9 @@ export class Votes {
 
 	@Column()
 	voterName: string;
+
+	@ManyToOne(() => Users, (user) => user.vote)
+	user: Users;
 
 	@ManyToOne(() => Paslon, (paslon) => paslon.votes)
 	paslon: Paslon;

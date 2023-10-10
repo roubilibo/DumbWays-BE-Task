@@ -4,6 +4,7 @@ import router from "./route";
 import VoteRoute from "./route/VoteRoute";
 import * as cors from "cors";
 import PartyRoute from "./route/PartyRoute";
+import AuthRoute from "./route/AuthRoute";
 
 AppDataSource.initialize()
 	.then(async () => {
@@ -31,6 +32,7 @@ AppDataSource.initialize()
 		app.use("/api/v1", router);
 		app.use("/api/v1", VoteRoute);
 		app.use("/api/v1", PartyRoute);
+		app.use("/api/v1", AuthRoute);
 		app.listen(port, () => `Server started on port ${port}`);
 	})
 	.catch((error) => console.log(error));
