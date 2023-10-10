@@ -2,7 +2,7 @@ import { Repository } from "typeorm";
 import { Paslon } from "../entities/Paslon";
 import { AppDataSource } from "../data-source";
 import { createTodoSchema, updateTodoSchema } from "../utils/Validation";
-import { Request, Response, response } from "express";
+import { Request, Response } from "express";
 import { deleteFile } from "../utils/FileHelper";
 import { uploadToCloudinary } from "../utils/Cloudinary";
 
@@ -37,6 +37,7 @@ export default new (class PaslonServices {
 			return res.status(500).json({ error: "error while insterting data!" });
 		}
 	}
+
 	async find(req: Request, res: Response): Promise<Response> {
 		try {
 			const paslons = await this.PaslonRepository.find();
@@ -45,6 +46,7 @@ export default new (class PaslonServices {
 			return res.status(500).json({ error: "error while finding data!" });
 		}
 	}
+
 	async findById(req: Request, res: Response): Promise<Response> {
 		try {
 			const id = parseInt(req.params.id);
@@ -97,6 +99,7 @@ export default new (class PaslonServices {
 			return res.status(500).json({ error: "Error while updating data!" });
 		}
 	}
+
 	async deleteById(req: Request, res: Response): Promise<Response> {
 		try {
 			const id = parseInt(req.params.id);
